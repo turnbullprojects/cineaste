@@ -1,68 +1,66 @@
 require_relative 'modules/paths'
-require_relative 'modules/helpers'
-require_relative 'modules/errors'
 require_relative 'encoder'
 require_relative 'tts'
+require_relative 's3_client'
 
-class Cineaste::Word
-  include Cineaste::Helpers
-  include Cineaste::Paths
+module Cineaste
+  class Word
+    include Paths
 
-  def initialize(dictionary, word, voice)
-    @dict = dictionary
-    @word = word
-    @voice = voice
-  end
-
-##################################################
-# Main
-##################################################
-
-  def find_or_create_video
-    video = get_saved_video
-    if video == nil 
-      video = generate_video 
+    def initialize(dictionary, word, voice)
+      @dict = dictionary
+      @word = word
+      @voice = voice
+      @s3 = S3Client.new
     end
-    return video
-  end
 
+    ##################################################
+    # Main
+    ##################################################
 
-##################################################
-# Helpers
-##################################################
-
-  def get_saved_video
-    get_media(defined_video_path) || get_media(generated_video_path)
-  end
-
-  def generate_video
-    encoder = word_encoder
-    audio = find_or_create_audio
-    template = get_media(template_video_path)
-    if template != nil
-      encoder.combine_video_and_audio(template,audio)
-      return get_media(generated_video_path)
-    else
-      raise Cineaste::Errors::NoTemplateVideoFound
+    def find_or_create_video
+      video = get_saved_video
+      if video == nil 
+        puts "No saved video found"
+        video = generate_video 
+      end
+      return video
     end
-  end
 
-  def find_or_create_audio
-    audio = get_media(audio_path)
-    if audio == nil
-      tts = Cineaste::TTS.new(@word, @voice)
-      tts.get_word
-      audio = get_media(audio_path)
+
+    ##################################################
+    # Helpers
+    ##################################################
+
+    def get_saved_video
+      puts "searching for #{defined_video_path(@dict,@word)}"
+      @s3.get_media(defined_video_path(@dict,@word)) || @s3.get_media(generated_video_path(@dict,@word))
     end
-    return audio
+
+    def generate_video
+      audio = find_or_create_audio
+      template = @s3.get_media(template_video_path(@dict))
+      path = generated_video_path(@dict,@word)
+      if template != nil
+        Cineaste::Encoder.combine_video_and_audio(template,audio,path)
+        return generated_video_path(@dict,@word)
+      else
+        raise StandardError, "No template video found"
+      end
+    end
+
+    def find_or_create_audio
+      path = word_audio_path(@voice, @word)
+      audio = @s3.get_media(path)
+      if audio == nil
+        tts = Cineaste::TTS.new(@word, @voice)
+        tts.get_word
+        audio = @s3.get_media(path)
+      end
+      return audio
+    end
+
+
+
   end
-
-  def word_encoder
-    encoder = Cineaste::Encoder.new
-    encoder.word = @word
-    encoder.dictionary = @dict
-    return encoder
-  end
-
-
 end

@@ -1,4 +1,4 @@
-require "cineaste/phrase"
+require_relative "cineaste/phrase"
 
 module Cineaste
 

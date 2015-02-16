@@ -1,79 +1,52 @@
 require_relative 'modules/paths'
-require_relative 'modules/helpers'
+require_relative 's3_client'
 
-class Cineaste::Encoder
-  include Cineaste::Paths
+module Cineaste
+  class Encoder
+    include Paths
+    attr_accessor :word, :dictionary
+    @@s3 = S3Client.new
 
-  TEMP_PATH = "~/tmp"
+    ##################################################
+    # Main
+    ##################################################
 
-  def initialize
-    @word = ""
-    @words = ""
-    @dictionary = ""
-    @encoded_phrase = ""
-  end
+    def self.combine_video_and_audio(video,audio,path)
+      local_output = "#{S3Client::TEMP_DIR}/#{path}"
 
-##################################################
-# Main
-##################################################
+      # Set up FFMPEG Command
+      cmd = "ffmpeg -i #{video} -i #{audio} -map 0:v -map 1:a -codec:v libx264 -preset medium -crf 23 -maxrate 400k -codec:a aac -strict experimental -ar 44100 -shortest #{local_output} -n"
 
-  def combine_video_and_audio(video,audio)
-    local_video = download_video(video)
-    local_audio = download_audio(audio)
-    local_output = "#{TEMP_PATH}/generated/#{word}.mp4"
+      # Run FFMPEG process
+      system(cmd)
 
-    # Set up FFMPEG Command
-    cmd = "ffmpeg -i #{local_video} -i #{local_audio} -map 0:v -map 1:a -codec:v libx264 -preset medium -crf 23 -maxrate 400k -codec:a aac -strict experimental -ar 44100 -shortest #{local_output} -n"
-
-    # Run FFMPEG process
-    system(cmd)
-
-    # Save it to S3
-    save(local_output)
-  end
-
-  def concatenate(videos)
-    local_output = "#{TEMP_PATH}/phrase/#{@encoded_phrase}.mp4"
-    inputs = ""
-    streams = ""
-    paths.each_with_index do |path,i|
-      inputs += "-i #{path} "
-      if i == 0
-        streams += " [#{i}:1]"
-      else 
-        streams += " [#{i}:0] [#{i}:1]"
-      end
+      # Save it to S3Client
+      @@s3.save(path)
+      return @@s3.get_url(path)
     end
 
-    # Set up FFMPEG Command
-    cmd = "ffmpeg #{inputs}-y -filter_complex '[0:0] setsar=1/1[sarfix];[sarfix]#{streams} concat=n=#{paths.count}:v=1:a=1[v] [a]' -map '[v]' -map '[a]' -strict -2 -acodec aac -b:a 128k -vcodec libx264 -pix_fmt yuv420p -aspect 4:3 -threads 4 -b:v 2400k -partitions +parti4x4+partp8x8+partb8x8 -mixed-refs 1 -subq 6 -b_strategy 2 #{local_output}"  
+    def self.concatenate(videos,path)
+      local_output = "#{S3Client::TEMP_DIR}/#{path}"
+      inputs = ""
+      streams = ""
+      videos.each_with_index do |vid,i|
+        inputs += "-i #{vid} "
+        if i == 0
+          streams += " [#{i}:1]"
+        else 
+          streams += " [#{i}:0] [#{i}:1]"
+        end
+      end
 
-    # Run the FFMPEG process
-    system(cmd)
+      # Set up FFMPEG Command
+      cmd = "ffmpeg #{inputs}-y -filter_complex '[0:0] setsar=1/1[sarfix];[sarfix]#{streams} concat=n=#{videos.count}:v=1:a=1[v] [a]' -map '[v]' -map '[a]' -strict -2 -acodec aac -b:a 128k -vcodec libx264 -pix_fmt yuv420p -aspect 4:3 -threads 4 -b:v 2400k -partitions +parti4x4+partp8x8+partb8x8 -mixed-refs 1 -subq 6 -b_strategy 2 #{local_output}"  
 
-    # Save output to S3
-    save(local_output)
+      # Run the FFMPEG process
+      system(cmd)
+
+      # Save output to S3Client
+      @@s3.save(path)
+    end
+
   end
-
-##################################################
-# Helpers
-##################################################
-
-  def save(video)
-    @s3 = Aws::S3::Client.new
-    @s3.put_object(bucket: s3_bucket, key: generated_word_path, body: video)
-  end
-
-  def download_video(video)
-    url = s3_url(video)
-    res = HTTParty.get(url)
-    return res.parsed_response
-  end
-
-  def download_audio(audio)
-    url = s3_url(video)
-    res = HTTParty.get(url)
-    return res.parsed_response
-  end
-
 end
