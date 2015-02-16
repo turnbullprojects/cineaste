@@ -4,17 +4,14 @@ Cineaste is a gem that takes a string and turns it into a video output. The gem 
 
 ## Usage
 
-Gemfile: 
-`require 'cineaste', git: 'https://github.com/thegempath/thegem.git'`
-
-Make it happen:
-
-`@dictionary = "standard" 
+```ruby
+@dictionary = "standard" 
 @input = "welcome to crumbles" #this will be sanitized
 @voice = "male" # male or female (determines which TTS service to use)
 
 phrase = Cineaste::Phrase.new(@dictionary,@input,@voice)
-phrase.get_video #will find or create a video on AWS and return the AWS URL as a string`
+phrase.get_video #will find or create a video on AWS and return the AWS URL as a string
+```
 
 ## File Structure
 
@@ -27,13 +24,16 @@ To add a new dictionary, simply create the following folder in S3:
 and add your videos there. 
 
 The following files will be generated during use:
+
+```
 /resources/:video/dictionaries/:dictionary/generated/undefined_word.mp4
 /resources/:video/dictionaries/:dictionary/phrases/base64_hash_of_phrase.mp4
 /resources/:audio/voice/:voice/tts_of_a_word.mp3
+```
 
 Files are stored locally in the tmp/ folder for use with FFMPEG
 
 ## To Do:
-- Create config file that takes S3 creds, file tree structure, and template video 
-- TESTS
-- Automatically clear tmp/ folder
+- Extract S3 creds, file tree structure, and template video into config file
+- Tests
+- Ensure tmp/ folder is periodically emptied
