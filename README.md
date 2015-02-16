@@ -1,31 +1,16 @@
 # Cineaste
 
-TODO: Write a gem description
+Gemfile: 
+`require 'cineaste', git: 'https://github.com/thegempath/thegem.git'`
 
-## Installation
+Make it happen:
+`@dictionary = "standard"` 
+`@input = "welcome to crumbles"` (this will be sanitized)
+`@voice = "male"` (male or female)
+`phrase = Cineaste::Phrase.new(@dictionary,@input,@voice)`
+`phrase.get_video` will find or create a video on AWS and return the AWS URL as a string
 
-Add this line to your application's Gemfile:
+# To Do:
+Move S3 info into config file
+Add MP4 encoding
 
-```ruby
-gem 'cineaste'
-```
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install cineaste
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( https://github.com/[my-github-username]/cineaste/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request

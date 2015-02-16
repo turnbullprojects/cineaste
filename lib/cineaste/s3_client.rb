@@ -45,7 +45,7 @@ module Cineaste
 
     def save_audio(path)
       create_directory_if_needed(path)
-      @s3.save("#{Paths::AUDIO_ROOT}/#{@voice}/#{@word}.mp3")
+      @s3.save(path)
     end
 
 

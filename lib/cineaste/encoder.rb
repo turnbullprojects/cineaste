@@ -43,9 +43,22 @@ module Cineaste
 
       # Run the FFMPEG process
       system(cmd)
-
+      
       # Save output to S3Client
       @@s3.save(path)
+
+      # Generate WebM of Phrase
+      create_webm(path)
+    end
+
+    def self.create_webm(path)
+      mp4_path = "#{S3Client::TEMP_DIR}/#{path}"      
+      webm_path = path.gsub("mp4","webm")
+      local_output = "#{S3Client::TEMP_DIR}/#{webm_path}"
+
+      cmd = "ffmpeg -i #{mp4_path} -codec:v libvpx -quality good -cpu-used 3 -b:v 500k -qmin 10 -qmax 42 -maxrate 500k -bufsize 1000k -threads 4 -vf scale=-1:480 -codec:a libvorbis -b:a 128k #{local_output}"
+      system(cmd)
+      @@s3.save(webm_path)
     end
 
   end
