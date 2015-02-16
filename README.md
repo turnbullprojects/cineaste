@@ -33,7 +33,16 @@ The following files will be generated during use:
 
 Files are stored locally in the tmp/ folder for use with FFMPEG
 
-## To Do:
-- Extract S3 creds, file tree structure, and template video into config file
+## Next Steps:
+- Ensure audio syncs with video during concatenation (seems to be off)
 - Tests
+- Extract S3 creds, file tree structure, and template video into config file
 - Ensure tmp/ folder is periodically emptied
+
+## Longer Term:
+- Account for multi-word phrases (eg. "ice cream")
+- Include ability to censor certain words from a list
+- Check for homonyms and mispellings as well as exact matches
+- Replace special chars used for letters ($ -> s)
+- Compress common mispellings (eg. "loooooolll" ->  "lol"). Check analytics for full list
+- Ignore gibberish as best as possible (can we drop something like "(&*UHEJF" ?) 
