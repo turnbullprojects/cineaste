@@ -41,9 +41,10 @@ module Cineaste
       audio = find_or_create_audio
       template = @s3.get_media(template_video_path(@dict))
       path = generated_video_path(@dict,@word)
+      local_path = local_file(path)
       if template != nil
         Cineaste::Encoder.combine_video_and_audio(template,audio,path)
-        return generated_video_path(@dict,@word)
+        return local_path
       else
         raise StandardError, "No template video found"
       end

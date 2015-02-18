@@ -26,6 +26,7 @@ module Cineaste
     end
 
     def self.concatenate(videos,path)
+
       local_output = "#{S3Client::TEMP_DIR}/#{path}"
       inputs = ""
       streams = ""
@@ -39,16 +40,13 @@ module Cineaste
       end
 
       # Set up FFMPEG Command
-      cmd = "ffmpeg #{inputs}-y -filter_complex '[0:0] setsar=1/1[sarfix];[sarfix]#{streams} concat=n=#{videos.count}:v=1:a=1[v] [a]' -map '[v]' -map '[a]' -strict -2 -acodec aac -b:a 128k -vcodec libx264 -pix_fmt yuv420p -aspect 4:3 -threads 4 -b:v 2400k -partitions +parti4x4+partp8x8+partb8x8 -mixed-refs 1 -subq 6 -b_strategy 2 #{local_output}"  
+      cmd = "ffmpeg #{inputs}-y -filter_complex '[0:0] setsar=1/1[sarfix];[sarfix]#{streams} concat=n=#{videos.count}:unsafe=1:v=1:a=1[v] [a]' -map '[v]' -map '[a]' -strict -2 -acodec aac -b:a 128k -vcodec libx264 -pix_fmt yuv420p -aspect 4:3 -threads 4 -b:v 2400k -partitions +parti4x4+partp8x8+partb8x8 -mixed-refs 1 -subq 6 -b_strategy 2 #{local_output}"  
 
       # Run the FFMPEG process
       system(cmd)
       
       # Save output to S3Client
       @@s3.save(path)
-
-      # Generate WebM of Phrase
-      create_webm(path)
     end
 
     def self.create_webm(path)
