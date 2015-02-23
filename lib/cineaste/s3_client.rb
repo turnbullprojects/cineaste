@@ -24,8 +24,9 @@ module Cineaste
 
     def get_url(path)
       if get_media(path) #check it exists, otherwise we return a path to nothing
-        obj = Aws::S3::Object.new({bucket_name: BUCKET, key: path, region: REGION}) #not an api call
-        return obj.public_url #returns REGARDLESS of whether obj exists in S3
+        #obj = Aws::S3::Object.new({bucket_name: BUCKET, key: path, region: REGION}) #not an api call
+        #return obj.public_url #returns REGARDLESS of whether obj exists in S3
+        return "https://crumbles-2015.s3.amazonaws.com/#{path}"
       else
         return nil
       end
