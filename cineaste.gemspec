@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Cineaste::VERSION
   spec.authors       = ["Alec Turnbull"]
   spec.email         = ["alec.turnbull@gmail.com"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Cineaste creates video mashups from a phrase.} 
+  spec.description   = %q{Cineaste is a gem that takes a string and turns it into a video output. The gem searches a given S3 bucket for videos matching each word, then concatenates them together. If the videos are not found, the gem creates videos using a template file video and text-to-speech. 
+}
   spec.homepage      = ""
   spec.license       = "MIT"
 
