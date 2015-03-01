@@ -6,7 +6,7 @@ gem 'httparty'
 gem 'json'
 gem 'capistrano'
 gem 'puma'
-gem 'cineaste', git: 'git@github.com:turnbullprojects/cineaste'
+gem 'cineaste', git: 'https://github.com/xenophin/cineaste.git'
 
 gem 'aws-sdk', '2.0.6.pre'
 

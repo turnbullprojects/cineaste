@@ -1,6 +1,6 @@
 GIT
-  remote: git@github.com:turnbullprojects/cineaste
-  revision: 26bf786d9e7ad3cdb181b95b68ef5a5f5b47a3ed
+  remote: https://github.com/xenophin/cineaste.git
+  revision: 9975dbdad0d38a9c3ed7f68f3178cbdbc32a6c19
   specs:
     cineaste (0.0.1.1)
       aws-sdk (~> 2)
