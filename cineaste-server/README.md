@@ -7,7 +7,7 @@ Cineaste Server is an small Sinatra app that provides a basic interface for the 
 - Move the folder out of Cineaste
 - Change the Cineaste gem source to the current repository (if required)
 - `bundle install`
-- `rackup`
+- `rackup` (or `bundle exec rackup` if rackup not found)
 
 ## API
 
