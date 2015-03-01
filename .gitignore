@@ -1,6 +1,7 @@
 /.bundle/
 /.yardoc
 /Gemfile.lock
+/cineaste-server/Gemfile.lock
 /_yardoc/
 /coverage/
 /doc/

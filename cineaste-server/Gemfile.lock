@@ -1,8 +1,8 @@
 GIT
-  remote: https://github.com/xenophin/cineaste.git
-  revision: 9975dbdad0d38a9c3ed7f68f3178cbdbc32a6c19
+  remote: https://github.com/xenophin/cineaste
+  revision: c9a30dd4b4f568da21da49672f9da70161db3385
   specs:
-    cineaste (0.0.1.1)
+    cineaste (0.0.1.2)
       aws-sdk (~> 2)
       httparty
 
@@ -60,7 +60,7 @@ PLATFORMS
 DEPENDENCIES
   aws-sdk (= 2.0.6.pre)
   capistrano
-  cineaste!
+  cineaste (= 0.0.1.2)!
   httparty
   json
   puma
