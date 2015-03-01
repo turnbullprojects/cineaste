@@ -1,0 +1,15 @@
+ruby '2.1.5'
+source 'https://rubygems.org'
+
+gem 'sinatra'
+gem 'httparty'
+gem 'json'
+gem 'capistrano'
+gem 'puma'
+gem 'cineaste', git: 'git@github.com:turnbullprojects/cineaste'
+
+gem 'aws-sdk', '2.0.6.pre'
+
+
+
+
