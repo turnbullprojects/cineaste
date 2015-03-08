@@ -2,7 +2,8 @@
 Summary:
 
 Averages
-m3.medium, SSD, ACS, running docker:                89 secs
+m3.medium, SSD, ACS, running docker (5 request):    89 secs
+m3.medium, SSD, ACS, running docker (50 request):   96 secs
 m3.medium, SSD, ACS, running locally:               88 secs
 iMac, 4MB, runnning clean after restart:            37 secs
 
