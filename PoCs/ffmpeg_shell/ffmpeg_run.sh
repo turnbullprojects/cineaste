@@ -3,6 +3,8 @@
 # script stored in docker container
 # to call from outside as a single run command
 
+VIDEO_DOCKER_DIR="/home/crumbles/ffmpeg/bin"
+VIDEO_LOCAL_DIR="/home/ec2-user/cineaste/code/PoCs"
 
 # ****************************************************************
 # ****  log with datetime stamp
@@ -22,7 +24,7 @@ echo "$CALLER_ID,START,$(date '+%H:%M:%S')"
 
 START=$(date +%s);
 
-FFMPEG_COMMAND="ffmpeg -stats -i  /home/crumbles/ffmpeg/bin/Buster.Keaton.The.Three.Ages.ogv -loop 0 -final_delay 500 -c:v gif -f gif -ss 00:49:42 -t 5 - > trow_ball.gif"
+#FFMPEG_COMMAND="ffmpeg -stats -i  /home/crumbles/ffmpeg/bin/Buster.Keaton.The.Three.Ages.ogv -loop 0 -final_delay 500 -c:v gif -f gif -ss 00:49:42 -t 5 - > trow_ball.gif"
 FFMPEG_COMMAND="ffmpeg -stats -i  /home/crumbles/ffmpeg/bin/Buster.Keaton.The.Three.Ages.ogv -loop 0 -final_delay 500 -c:v gif -f gif -ss 00:49:42 -t 5 -"
 #ffmpeg -stats -i  /home/crumbles/ffmpeg/bin/Buster.Keaton.The.Three.Ages.ogv -loop 0 -final_delay 500 -c:v gif -f gif -ss 00:49:42 -t 5 
 
