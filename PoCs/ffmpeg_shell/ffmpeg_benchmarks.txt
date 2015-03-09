@@ -1,0 +1,98 @@
+
+Summary:
+
+
+                           *************************************
+                           *** parallel runs
+                           *************************************
+
+Averages
+m3.medium, SSD, ACS, running docker (5 request):    89 secs (average), waiting time 5 times that
+m3.medium, SSD, ACS, running docker (50 request):   96 secs (average), waiting time 50 times that
+m3.medium, SSD, ACS, running locally:               88 secs
+iMac, 4MB, runnning clean after restart:            37 secs
+
+
+                           *************************************
+                           *** sequential runs
+                           *************************************
+
+Averages
+m3.medium, SSD, ACS, running in docker              87 secs
+m3.medium, SSD, ACS, running locally:               86 secs
+iMac, 4MB, runnning clean after restart:            44 secs
+
+
+
+
+m3.medium, SSD, ACS, running in docker:
+CALLER_1,START,12:42:07
+CALLER_1,FINISH,12:49:36
+CALLER_1,ELAPSED_TIME,448
+CALLER_2,START,12:42:09
+CALLER_2,FINISH,12:49:32
+CALLER_2,ELAPSED_TIME,443
+CALLER_3,START,12:42:09
+CALLER_3,FINISH,12:49:36
+CALLER_3,ELAPSED_TIME,447
+CALLER_4,START,12:42:08
+CALLER_4,FINISH,12:49:31
+CALLER_4,ELAPSED_TIME,443
+CALLER_5,START,12:42:09
+CALLER_5,FINISH,12:49:34
+CALLER_5,ELAPSED_TIME,445
+
+
+m3.medium, SSD, ACS, running locally:
+CALLER_1,START,14:05:44
+CALLER_1,FINISH,14:13:04
+CALLER_1,ELAPSED_TIME,440
+CALLER_2,START,14:05:44
+CALLER_2,FINISH,14:13:01
+CALLER_2,ELAPSED_TIME,437
+CALLER_3,START,14:05:44
+CALLER_3,FINISH,14:13:03
+CALLER_3,ELAPSED_TIME,439
+CALLER_4,START,14:05:44
+CALLER_4,FINISH,14:13:05
+CALLER_4,ELAPSED_TIME,441
+CALLER_5,START,14:05:44
+CALLER_5,FINISH,14:13:05
+CALLER_5,ELAPSED_TIME,441
+
+
+
+iMac, 4MB, runnning clean after restart:
+CALLER_1,START,09:07:36
+CALLER_1,FINISH,09:10:46
+CALLER_1,ELAPSED_TIME,190
+CALLER_2,START,09:07:36
+CALLER_2,FINISH,09:10:43
+CALLER_2,ELAPSED_TIME,187
+CALLER_3,START,09:07:36
+CALLER_3,FINISH,09:10:44
+CALLER_3,ELAPSED_TIME,188
+CALLER_4,START,09:07:36
+CALLER_4,FINISH,09:10:46
+CALLER_4,ELAPSED_TIME,190
+CALLER_5,START,09:07:35
+CALLER_5,FINISH,09:10:42
+CALLER_5,ELAPSED_TIME,187
+
+
+iMac, 4MB, runnning on no memory left:
+CALLER_1,START,21:27:37
+CALLER_1,FINISH,21:31:49
+CALLER_1,ELAPSED_TIME,4:12
+CALLER_2,START,21:27:38
+CALLER_2,FINISH,21:31:49
+CALLER_2,ELAPSED_TIME,4:11
+CALLER_3,START,21:27:37
+CALLER_3,FINISH,21:31:49
+CALLER_3,ELAPSED_TIME,4:12
+CALLER_4,START,21:27:37
+CALLER_4,FINISH,21:31:47
+CALLER_4,ELAPSED_TIME,4:10
+CALLER_5,START,21:27:37
+CALLER_5,FINISH,21:31:51
+CALLER_5,ELAPSED_TIME,4:14
