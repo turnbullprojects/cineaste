@@ -16,7 +16,7 @@ function log {
    echo "$timestamp $@"
 }
 
-MAX_CLIENTS=1
+MAX_CLIENTS=5
 
 #$CMD="$CMD_LOCAL"
 CMD="$CMD_DOCKER"
