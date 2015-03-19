@@ -24,7 +24,7 @@ function log {
    echo "$timestamp $@"
 }
 
-MAX_CLIENTS=20
+MAX_CLIENTS=50
 
 # ****************************************************************
 # ****  test 1
