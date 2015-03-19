@@ -24,7 +24,7 @@ function log {
    echo "$timestamp $@"
 }
 
-MAX_CLIENTS=50
+MAX_CLIENTS=100
 
 # ****************************************************************
 # ****  test 1
@@ -44,6 +44,8 @@ do
 	CALLER_ID="CALLER_$i"
 	$CMD $CALLER_ID > $CMD_TEST_1.parallel.$CALLER_ID.log &
 done
+
+exit
 
 # ****************************************************************
 # ****  test 2
