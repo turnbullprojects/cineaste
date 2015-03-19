@@ -24,7 +24,7 @@ function log {
    echo "$timestamp $@"
 }
 
-MAX_CLIENTS=5
+MAX_CLIENTS=20
 
 # ****************************************************************
 # ****  test 1
@@ -45,6 +45,24 @@ do
 	$CMD $CALLER_ID > $CMD_TEST_1.parallel.$CALLER_ID.log &
 done
 
+# ****************************************************************
+# ****  test 2
+# ****************************************************************
+CMD="$CMD_BASE/$CMD_TEST_2"
+
+# sequential - just to establish sequential run, we don't have to run 100 times
+for (( i=1; i <= 3; i++ ))
+do
+	CALLER_ID="CALLER_$i"
+	$CMD $CALLER_ID > $CMD_TEST_2.sequential.$CALLER_ID.log 
+done
+
+# parallel
+for (( i=1; i <= $MAX_CLIENTS; i++ ))
+do
+	CALLER_ID="CALLER_$i"
+	$CMD $CALLER_ID > $CMD_TEST_2.parallel.$CALLER_ID.log &
+done
 
 
 
